@@ -1,6 +1,7 @@
 package br.com.autenticacaousuario.controller;
 
 import br.com.autenticacaousuario.model.dto.CadastroUsuarioDTO;
+import br.com.autenticacaousuario.model.dto.ListaUsuarioDTO;
 import br.com.autenticacaousuario.model.entities.Usuario;
 import br.com.autenticacaousuario.model.repository.UsuarioRepository;
 import br.com.autenticacaousuario.model.service.UsuarioService;
@@ -27,7 +28,11 @@ public class UsuarioController {
     }
 
     @GetMapping("/listar")
-    public List<Usuario> listar() {
-        return usuarioService.listar();
+    public ResponseEntity<List<ListaUsuarioDTO>> listar() {
+        List<ListaUsuarioDTO> usuarios = usuarioService.listar()
+                .stream()
+                .map(ListaUsuarioDTO::new)
+                .toList();
+        return ResponseEntity.ok(usuarios);
     }
 }
