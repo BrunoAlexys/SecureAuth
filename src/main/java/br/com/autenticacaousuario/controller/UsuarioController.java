@@ -1,5 +1,6 @@
 package br.com.autenticacaousuario.controller;
 
+import br.com.autenticacaousuario.model.dto.AtualizarDadosUsuarioADM;
 import br.com.autenticacaousuario.model.dto.AtualizarUsuarioDTO;
 import br.com.autenticacaousuario.model.dto.CadastroUsuarioDTO;
 import br.com.autenticacaousuario.model.dto.ListaUsuarioDTO;
@@ -43,10 +44,17 @@ public class UsuarioController {
     }
 
     @PutMapping("/atualizar")
-    public ResponseEntity<Usuario> atualizar(@RequestBody @Valid AtualizarUsuarioDTO dados) {
-        var usuario = usuarioService.atualizarUsuario(dados);
-        return ResponseEntity.ok(usuario);
+    public ResponseEntity<AtualizarUsuarioDTO> atualizarDadosDoUsuario(@RequestBody @Valid AtualizarUsuarioDTO dados) {
+        usuarioService.atualizarUsuario(dados);
+        return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/atualizar-adm")
+    public ResponseEntity<AtualizarDadosUsuarioADM> atualizarDadosDoUsuarioADM(@RequestBody @Valid AtualizarDadosUsuarioADM dados) {
+        usuarioService.atualizarUsuarioADM(dados);
+        return ResponseEntity.ok().build();
+    }
+
 
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Void> deletar(@PathVariable("id") UUID id) {

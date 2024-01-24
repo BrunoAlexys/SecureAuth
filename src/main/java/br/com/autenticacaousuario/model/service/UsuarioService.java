@@ -1,5 +1,6 @@
 package br.com.autenticacaousuario.model.service;
 
+import br.com.autenticacaousuario.model.dto.AtualizarDadosUsuarioADM;
 import br.com.autenticacaousuario.model.dto.AtualizarUsuarioDTO;
 import br.com.autenticacaousuario.model.entities.Usuario;
 import br.com.autenticacaousuario.model.repository.UsuarioRepository;
@@ -43,7 +44,21 @@ public class UsuarioService {
     }
 
     @Transactional
-    public Usuario atualizarUsuario(AtualizarUsuarioDTO dados) {
+    public void atualizarUsuario(AtualizarUsuarioDTO dados) {
+        var usuario = usuarioRepository.findByIdAndAtivoTrue(dados.id())
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+
+        if (dados.nome() != null) {
+            usuario.setNome(dados.nome());
+        }
+
+        if (dados.senha() != null) {
+            usuario.setSenha(passwordEncoder.encode(dados.senha()));
+        }
+    }
+
+    @Transactional
+    public void atualizarUsuarioADM(AtualizarDadosUsuarioADM dados) {
         var usuario = usuarioRepository.findByIdAndAtivoTrue(dados.id())
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 
@@ -55,7 +70,13 @@ public class UsuarioService {
             usuario.setSenha(passwordEncoder.encode(dados.senha()));
         }
 
-        return usuario;
+        if (dados.email() != null) {
+            usuario.setEmail(dados.email());
+        }
+
+        if (dados.cpf() != null) {
+            usuario.setCpf(dados.cpf());
+        }
     }
 
     @Transactional
