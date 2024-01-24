@@ -1,5 +1,6 @@
 package br.com.autenticacaousuario.controller;
 
+import br.com.autenticacaousuario.model.dto.AtualizarUsuarioDTO;
 import br.com.autenticacaousuario.model.dto.CadastroUsuarioDTO;
 import br.com.autenticacaousuario.model.dto.ListaUsuarioDTO;
 import br.com.autenticacaousuario.model.entities.Usuario;
@@ -32,5 +33,11 @@ public class UsuarioController {
                 .map(ListaUsuarioDTO::new)
                 .toList();
         return ResponseEntity.ok(usuarios);
+    }
+
+    @PutMapping("/atualizar")
+    public ResponseEntity<Usuario> atualizar(@RequestBody @Valid AtualizarUsuarioDTO dados) {
+        var usuario = usuarioService.atualizarUsuario(dados);
+        return ResponseEntity.ok(usuario);
     }
 }

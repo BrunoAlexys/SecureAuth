@@ -1,5 +1,6 @@
 package br.com.autenticacaousuario.model.service;
 
+import br.com.autenticacaousuario.model.dto.AtualizarUsuarioDTO;
 import br.com.autenticacaousuario.model.entities.Usuario;
 import br.com.autenticacaousuario.model.repository.UsuarioRepository;
 import br.com.autenticacaousuario.model.validation.IValidarUsuario;
@@ -32,5 +33,21 @@ public class UsuarioService {
         } catch (EntityNotFoundException exception) {
             throw new EntityNotFoundException("Não foi possível listar os usuários");
         }
+    }
+
+    @Transactional
+    public Usuario atualizarUsuario(AtualizarUsuarioDTO dados) {
+        var usuario = usuarioRepository.findById(dados.id())
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+
+        if (dados.nome() != null) {
+            usuario.setNome(dados.nome());
+        }
+
+        if (dados.senha() != null) {
+            usuario.setSenha(passwordEncoder.encode(dados.senha()));
+        }
+
+        return usuario;
     }
 }
