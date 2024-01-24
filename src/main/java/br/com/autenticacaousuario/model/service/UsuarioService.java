@@ -31,15 +31,20 @@ public class UsuarioService {
 
     public List<Usuario> listar() {
         try {
-            return usuarioRepository.findAll();
+            return usuarioRepository.findAllAndAtivoTrue();
         } catch (EntityNotFoundException exception) {
             throw new EntityNotFoundException("Não foi possível listar os usuários");
         }
     }
 
+    public Usuario listarPorId(UUID id) {
+        return usuarioRepository.findByIdAndAtivoTrue(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+    }
+
     @Transactional
     public Usuario atualizarUsuario(AtualizarUsuarioDTO dados) {
-        var usuario = usuarioRepository.findById(dados.id())
+        var usuario = usuarioRepository.findByIdAndAtivoTrue(dados.id())
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 
         if (dados.nome() != null) {
