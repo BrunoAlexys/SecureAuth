@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/usuario")
@@ -39,5 +40,11 @@ public class UsuarioController {
     public ResponseEntity<Usuario> atualizar(@RequestBody @Valid AtualizarUsuarioDTO dados) {
         var usuario = usuarioService.atualizarUsuario(dados);
         return ResponseEntity.ok(usuario);
+    }
+
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable("id") UUID id) {
+        usuarioService.deletarUsuario(id);
+        return ResponseEntity.ok().build();
     }
 }

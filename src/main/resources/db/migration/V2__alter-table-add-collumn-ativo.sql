@@ -1,0 +1,2 @@
+ALTER TABLE tb_usuarios
+    ADD COLUMN ativo TINYINT(1) DEFAULT 1;

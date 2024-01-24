@@ -29,6 +29,7 @@ public class Usuario implements UserDetails {
     private String email;
     private String senha;
     private UserRole role;
+    private Boolean ativo;
 
     public Usuario(CadastroUsuarioDTO dados) {
         this.nome = dados.nome();
@@ -36,6 +37,7 @@ public class Usuario implements UserDetails {
         this.email = dados.email();
         this.senha = dados.senha();
         this.role = UserRole.valueOf(dados.role());
+        this.ativo = true;
     }
 
     @Override
