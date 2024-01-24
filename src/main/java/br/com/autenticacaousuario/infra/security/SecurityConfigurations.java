@@ -29,6 +29,7 @@ public class SecurityConfigurations {
                 .authorizeRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/usuario/cadastrar").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/usuario/listar").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilte, UsernamePasswordAuthenticationFilter.class)
                 .build();
@@ -43,4 +44,6 @@ public class SecurityConfigurations {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
 }
